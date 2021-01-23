@@ -19,10 +19,7 @@
      creates: noarch
 
  - name: "Install Packets"
-   dnf:
-     name:
-       - /tmp/freeipa-mailserver/noarch/freeipa-mailserver-*.noarch.rpm
-       - /tmp/freeipa-mailserver/noarch/python3-ipa-mailserver-server-*.noarch.rpm
+   shell: dnf install /tmp/freeipa-mailserver/noarch/freeipa-mailserver-*.noarch.rpm /tmp/freeipa-mailserver/noarch/python3-ipa-mailserver-server-*.noarch.rpm
 
  - name: "Remove freeipa-mailserver plugin build dependencies"
    dnf:

@@ -1,0 +1,32 @@
+---
+ - name: "Install freeipa-mailserver plugin build dependencies"
+   dnf:
+     name:
+       - python3-devel
+       - tito
+     state: present
+
+ - name: "Clone Carbenium/freeipa-mailserver"
+   git:
+     repo: https://github.com/Carbenium/freeipa-mailserver.git
+     version: master
+     dest: /tmp/freeipa-mailserver
+
+ - name: "Create Packet"
+   shell: tito build --test --rpm -o .
+   args:
+     chdir: /tmp/freeipa-mailserver
+     creates: noarch
+
+ - name: "Install Packets"
+   dnf:
+     name:
+       - /tmp/freeipa-mailserver/noarch/freeipa-mailserver-*.noarch.rpm
+       - /tmp/freeipa-mailserver/noarch/python3-ipa-mailserver-server-*.noarch.rpm
+
+ - name: "Remove freeipa-mailserver plugin build dependencies"
+   dnf:
+     name:
+       - python3-devel
+       - tito
+     state: absent
